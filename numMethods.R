@@ -6,23 +6,27 @@ head(dfTips)
 
 
 #Descriptive methods
-#Univar case 
-#Numerical methods
-#Center of distribution (mean, median)
+  #Univar case 
+    #Numerical methods
+      #Center of distribution (mean, median, mode)
 
-mean(dfTips$tip)
-median(dfTips$tip)
-
-#tip
+#check the distribution
 plot(density(dfTips$tip))
 
-#Center
-#Midpoint/median, where most observations are, average,middle, Mode 
+#Locate the center....why is it important to locate the center
+#different approaches
 mean(dfTips$tip)
 median(dfTips$tip)
 
-#location (quantiles and percentiles)
-quantile(dfTips$tip)
+mymode <- function(v) {
+  uniqv <- unique(v)
+  uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
+mymode(dfTips$tip)
+
+#Other locations (quantiles)
+quantile(dfTips$tip)    #quartiles
 quantile(dfTips$tip, 0.4)
 #write a fun that returns any location in the dist
 
@@ -31,24 +35,30 @@ myQnt=function(x,q){
   return(pr)
 }
 
-#1- myQnt()
+myQnt(dfTips$tip, 0.35)
+
+#what does 1- myQnt() would calculate?
 
 boxplot(dfTips$tip,
         horizontal = T, 
         col='#0033FF')
 
-boxplot.stats(dfTips$tip) #outliers
-quantile(dfTips$tip, .9)
+outs=boxplot.stats(dfTips$tip)[4] #outliers
 
-View(dfTips)
+outs=data.frame(outs)
+min(outs$out)
 #remove the outliers
 
-tipNew=dfTips$tip[dfTips$tip<5.5]
+tipNew=dfTips$tip[dfTips$tip<6]
 
 
 boxplot(tipNew, horizontal = T)
 mean(tipNew)
+median(tipNew)
+mymode(tipNew)
 
+
+plot(density(dfTips$tip))
 #Variation
 range(dfTips$tip)
 sd(dfTips$tip)
@@ -65,7 +75,15 @@ abline(h=0.8, col='darkgreen', lty=3)
 
 
 ecdf(dfTips$tip)(4)
+#83% paid 4 d or less as tip
 
 quantile(dfTips$tip, ecdf(dfTips$tip)(4))
+
+
+#quantile and ecdf are inverse of one another
+quantile(dfTips$tip, 0.8) #we have the percentage...look for the value
+
+ecdf(dfTips$tip)(6)    #we have the value ...look for the percentage
+
 
 #Next:Data Manipulation dplyr package
