@@ -14,9 +14,10 @@ head(dfTips)
 plot(density(dfTips$tip))
 
 #Locate the center....why is it important to locate the center
+#
 #different approaches
-mean(dfTips$tip)
-median(dfTips$tip)
+mean(dfTips$tip)  #
+median(dfTips$tip)   #as a midpoint
 
 mymode <- function(v) {
   uniqv <- unique(v)
@@ -24,6 +25,7 @@ mymode <- function(v) {
 }
 
 mymode(dfTips$tip)
+
 
 #Other locations (quantiles)
 quantile(dfTips$tip)    #quartiles
@@ -35,18 +37,26 @@ myQnt=function(x,q){
   return(pr)
 }
 
-myQnt(dfTips$tip, 0.35)
+myQnt(dfTips$tip, 0.80)
 
-#what does 1- myQnt() would calculate?
+# 80% paid 4 or less as tip, 20% paid more than 4 USD
+
 
 boxplot(dfTips$tip,
         horizontal = T, 
         col='#0033FF')
 
+#outliers affect the location of the center dispropotionaly 
+boxplot.stats(dfTips$tip)
+
 outs=boxplot.stats(dfTips$tip)[4] #outliers
+typeof(outs)
 
 outs=data.frame(outs)
+head(outs)
 min(outs$out)
+
+View(dfTips)
 #remove the outliers
 
 tipNew=dfTips$tip[dfTips$tip<6]
@@ -58,14 +68,16 @@ median(tipNew)
 mymode(tipNew)
 
 
-plot(density(dfTips$tip))
+plot(density(tipNew))
 #Variation
 range(dfTips$tip)
 sd(dfTips$tip)
 var(dfTips$tip)   #center means the mean
 mad(dfTips$tip)
 
-##ECDF 
+plot(density(dfTips$tip))
+##ECDF Emperical Cummulative Distribution Function
+
 plot(ecdf(dfTips$tip), 
      col='blue', 
      main='ECDF of Tip', 
@@ -76,9 +88,6 @@ abline(h=0.8, col='darkgreen', lty=3)
 
 ecdf(dfTips$tip)(4)
 #83% paid 4 d or less as tip
-
-quantile(dfTips$tip, ecdf(dfTips$tip)(4))
-
 
 #quantile and ecdf are inverse of one another
 quantile(dfTips$tip, 0.8) #we have the percentage...look for the value
