@@ -7,6 +7,7 @@ dim(dfTips)
 
 #filter rows
 fcust=filter(dfTips, sex=='Female')
+#filter(dfTips, sex !='Female')
 head(fcust)
 dim(fcust)
 
@@ -29,7 +30,7 @@ head(wkEndF)
 dim(wkEndF)
 
 #Weekdays 
-filter(dfTips, sex !='Female')
+
 unique(dfTips$day)
 
 wkDays=filter(dfTips, day!='Sun' &  day !='Sat')
@@ -53,18 +54,19 @@ head(arrange(dfTips, -desc(tip)))
 head(arrange(dfTips, sex))   #decode the values F=1 Male 0
 
 View(dfTips)
-#select
+#select a subset based on column
 names(dfTips)
 x0=select(dfTips, c(total_bill, tip, size))
 head(x0)
 head(dfTips)
-select(dfTips, size, everything())
-head(dfTips)
+x1=select(dfTips, size, everything())  #var size is put at the beginning
+head(x1)
 
+head(dfTips)
 dfTips=select(dfTips, total_bill:size)
 head(dfTips)
 
-select(dfTips, tip:smoker)
+head(select(dfTips, tip:smoker))
 head(select(dfTips, -(tip:smoker)))
 
 
@@ -84,6 +86,7 @@ head(mutate(dfTips, tax=total_bill*0.2))
 #summarize
 summarise(dfTips, mean(total_bill), sd(total_bill),  mean(tip), sd(tip))
 
+#based on another variable
 gender=group_by(dfTips, sex)
 
 summarise(gender, mean(total_bill), sd(total_bill))
