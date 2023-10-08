@@ -45,4 +45,4 @@ scatter.smooth(dtTips$total_bill, dtTips$tip)
 abline(v=25, col='red')
 
 cor(dtTips$total_bill, dtTips$tip)
-cor.test(dtTips$total_bill, dtTips$tip)
+cov(dtTips$total_bill, dtTips$tip)
