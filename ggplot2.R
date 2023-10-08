@@ -12,7 +12,7 @@ fdtGender=table(dtTips$sex)
 fdtGender=as.data.frame(fdtGender)
 fdtGender
 colnames(fdtGender)=c("Gender","Count")
-
+fdtGender
 
 g0=ggplot(fdtGender, aes(x="", y=Count, fill=Gender))
 g1=g0+geom_col()+
@@ -63,9 +63,13 @@ g0+geom_histogram(bins = 10, fill='#99FFFF', colour=4)+
   ggtitle('Tip Distribution')+
   xlab('Tip Amount')+
   ylab('Frequency')+
-  geom_vline(xintercept = 3,
+  geom_vline(xintercept = mean(dtTips$tip),
              linetype='dashed',
              color='red', 
+             size=1)+
+  geom_vline(xintercept = median(dtTips$tip),
+             linetype='dashed',
+             color='blue', 
              size=1)
 ggsave('tipDistHist.png')
 
@@ -83,41 +87,48 @@ g0+geom_density(color='red', size=.1)+
   ggtitle('Tip Distribution')+
   xlab('Tip Amount')+
   ylab('Density')+
-  geom_vline(xintercept = 3,
+  geom_vline(xintercept = 5,
+             linetype='dashed',
+             color='blue', 
+             size=1)+
+  geom_hline(yintercept = .3,
              linetype='dashed',
              color='blue', 
              size=1)
 ggsave('tipDistHist.png')
 
 
-x=as.data.frame(rnorm(1000000, 170,10))
-colnames(x)=c('xN')
-head(x)
-y=as.data.frame(rnorm(1000000, 10.2,1))
-colnames(y)=c('y')
-
-
-plot(density(x$xN), 
-     col='red',
-     ylim=c(0,.04))
-lines(density(y$y),
-      col='blue')
-
-
-g0=ggplot(x, aes(x=xN))
-g0+geom_density(color='red', size=.1)+
-  theme_test()+
-  geom_vline(xintercept = 0,
+##ECDF 
+g0=ggplot(dtTips, aes(x=tip))
+g1=g0+stat_ecdf(geom = "step", 
+                col="red")+
+  theme_classic()+
+  theme(plot.title = element_text(face = 'bold',
+                                  hjust = .5), 
+        axis.title = element_text(), 
+        axis.title.y = element_text())+
+  ggtitle('Tip C. Distribution')+
+  xlab('Tip Amount')+
+  ylab('C. Density')+
+  geom_vline(xintercept = 5,
+             linetype='dashed',
+             color='blue', 
+             size=1)+
+  geom_hline(yintercept = .92,
              linetype='dashed',
              color='blue', 
              size=1)
+  
 
+g1
+
+ecdf(dtTips$tip)(5)
 ###+++++++++++++++++++Box Plot
 
-g0=ggplot(dtTip, aes(y='',x=tip))
-g0+geom_boxplot(fill=4, 
-                color=2, 
-                alpha=0.6, 
+g0=ggplot(dtTips, aes(y='',x=tip))
+g0+geom_boxplot(fill=5, 
+                color=6, 
+                alpha=0.3, 
                 outlier.colour = 'blue', 
                 linetype=2, 
                 lwd=.6)+
@@ -129,6 +140,8 @@ g0+geom_boxplot(fill=4,
   ggtitle('Box Plot of the Tip')+
   xlab('Tip Amount')
 ggsave('boxplotTip.png')
+
+
 
 
 #Bivariate graphs
