@@ -6,12 +6,12 @@
 
 dbinom(1, 2, 0.5)    #dbinom(x, n, p)
 
-x=c(1:12)
+x=c(0:12)
 x
 
-y=dbinom(1:12, 12, 0.6)
+y=dbinom(0:12, 12, 0.5)
 y
-plot(x,y, type="l")
+plot(x,y, type="o", ylim=c(0, 0.25))
 
 
 #pbinomial cumulative 
@@ -71,7 +71,7 @@ hist(x, probability = T)
 
 ##Geometric distribution #a success in kth try
 #x=0,1,2,3,4.... is the failures in the sequences  p(x)=Pr(X=x)=p(1-p)^x
-dgeom(2, 0.5)     #FFFS
+dgeom(0, 0.5)     #FFFS
 pgeom(3, 0.5)     
 qgeom(0.93, 0.5)
 
